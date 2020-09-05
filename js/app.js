@@ -8,18 +8,21 @@
 
     //functions
     const displayMsg = function(msg, error = true){
-        if(error === true)
+        if(error === true){
             infoBox.html(`
                 <div class='alert alert-danger'>
                 <strong>Error: </strong> ${msg}
                 </div>
             `)
-        else
+        }else{
         infoBox.html(`
             <div class='alert alert-success'>
                <strong>Done!: </strong> ${msg}
             </div>
         `)
+       }
+        
+        window.scrollTo(0,0)
     }
 
     const showOutput = function(data){
@@ -32,12 +35,14 @@
             <h4>Phone Numbers</h4>
             <p class='my-3 p-2 text-justify'>${data.outputFilter}</p>
             <h4>Normal Numbers</h4>
-            <p class='my-3 p-2 text-justify'>${data.outputNoFilter}</p>
+
         `)
+        window.scrollTo(0,0)
     }
 
     const print = function(data){
         infoBox.html(data)
+        window.scrollTo(0,0)
     }
 
 
@@ -91,16 +96,5 @@
 })()
 
 
-// //filter out all numbers in phone number inside the string
-// phoneNumbers = string.match(/\++234([0-9]*)|([0-9]{2,11})/gi)
-    
-// //check if any number was found
-// if(!phoneNumbers){
-//     displayError('Sorry No phone numbers in this data')
-//     return
-// }
 
-// //filter all incomplete numbers out
-// phoneNumbers = phoneNumbers.filter(value => value.length >= 11)
-// quan.textContent = `${phoneNumbers.length} Numbers Found`
-// output.innerHTML = `<p class='bg-dark text-white'>${phoneNumbers.join(separator)}</p>` 
+ 
