@@ -36,7 +36,7 @@
             <p class='my-3 p-2 text-justify'>${data.outputFilter}</p>
             <h4>Normal Numbers</h4>
 
-        `)
+        `);
         window.scrollTo(0,0)
     }
 
