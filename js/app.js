@@ -5,10 +5,16 @@
     const dividerInput = $('#extract-form input#seperator');
     const noteInput = $('#extract-form textarea[name="note"');
     const btnFilter = $('#extract-form  .btn-filter');
+    const newLineCheck = document.querySelector('#new-line')
 
     //functions
-    const displayMsg = function(msg, error = true){
-        if(error === true){
+    const displayMsg = function(msg = false, error = true){
+        if(msg == false){
+            outputBox.html('')
+            return
+        }
+
+        if(error == true){
             infoBox.html(`
                 <div class='alert alert-danger'>
                 <strong>Error: </strong> ${msg}
@@ -19,24 +25,42 @@
             <div class='alert alert-success'>
                <strong>Done!: </strong> ${msg}
             </div>
-        `)
-       }
-        
+        `)}
+
         window.scrollTo(0,0)
     }
 
-    const showOutput = function(data){
-        infoBox.html(`
-            <div class='bg-dark text-white p-3 mb-3'>
-                <p><strong>Scanned: ${data.scanned}</p>
-                <p><strong>Found: ${data.found}</p>
-                <p><strong>Filtered: ${data.filtered}</p>
+    const showOutput = function(data = false){
+        if(data == false){
+            outputBox.html('')
+            return
+        }
+
+        let output = `
+            <div class='alert-info alert text-dark p-3 mb-3'>
+                <p><strong class='text-danger'>Scanned Characters:</strong> ${data.scanned}</p>
+                <p><strong class='text-danger'>Numbers Found:</strong> ${data.others}</p>
+                <p><strong class='text-danger'>Phone Numbers Found:</strong> ${data.filtered}</p>
+                <p><strong class='text-danger'>Total Numbers Found:</strong> ${data.totalNumbers}</p>
             </div>
+            <h3 class='text-info'>Click to copy</h3>
+            `
+
+        if(data.outputFilter.length > 0){
+            output += `
             <h4>Phone Numbers</h4>
-            <p class='my-3 p-2 text-justify'>${data.outputFilter}</p>
+            <p class='my-3 p-2 bg-success text-white font-weight-bold can-copy'>${data.outputFilter}</p>
+            `
+        }
+
+        if(data.outputNoFilter.length > 0){
+            output += `
             <h4>Normal Numbers</h4>
-            <p class='my-3 p-2 text-justify'>${data.outputNoFilter}</p>
-        `);
+            <p class='my-3 p-2 bg-warning font-weight-bold can-copy'>${data.outputNoFilter}</p>
+            `
+        }
+
+        outputBox.html(output)
         window.scrollTo(0,0)
     }
 
@@ -49,11 +73,17 @@
 
     btnFilter.on('click', function(e){
         e.preventDefault()
-        let note, divider, allNumbers, phoneNumbers;
+        let note, divider, allNumbers, phoneNumbers, standAlone;
         let data = {}
 
         note = noteInput.val()
         divider = dividerInput.val()
+        standAlone = newLineCheck.checked
+        
+
+        //reset all output
+        displayMsg()
+        showOutput()
 
         if(note.length < 1){
             displayMsg('Content Field Cannot be empty. Please enter something'); 
@@ -69,12 +99,19 @@
         } 
 
         //remove all numbers that are not valid phone numbers
+        allNumbers = allNumbersArray
         phoneNumbers = allNumbersArray.filter(value => value.length >= 11)
         otherNumbers = allNumbersArray.filter(value => value.length < 11)
 
         data.scanned = note.length // total characters submitted by user
-        data.found = allNumbersArray.length //numbers found
-        data.filtered = phoneNumbers.length //toatl filtered numbers
+        data.totalNumbers = allNumbers.length // total characters submitted by user
+        data.others = otherNumbers.length //none phone numbers found
+        data.filtered = phoneNumbers.length //total filtered phone numbers
+
+        if(standAlone){
+            divider+='\n<br>'
+        }
+        
 
         data.outputFilter = phoneNumbers.join(divider + ' ')
         data.outputNoFilter = otherNumbers.join(divider + ' ')
@@ -85,16 +122,22 @@
         `)
 
         setTimeout(() => {
-            displayMsg('Sucessfully Scanned', true);
+            displayMsg('Sucessfully Scanned', false);
             showOutput(data)
-            window.scrollTo(0,0) 
-        }, 5000);
+            window.scrollTo(0,0)
+            //bind new elements to the click to copy event
+            $('.can-copy').on('click',function(){
+                var $temp = $("<textarea>");
+                $("body").append($temp);
+                $temp.html($(this).text()).select();
+                document.execCommand("copy");
+                $temp.remove();
+                alert('copied')
+            }) 
+        }, 2000);
         
     })
 
+    
 
 })()
-
-
-
- 

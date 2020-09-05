@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phone Number Extractor</title>
+    <link rel="shortcut icon" href="./img/favicon.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Roboto:ital,wght@1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -24,17 +25,21 @@
                     </div>
                     <div class="col-sm-12">
                         <div>
-                            <h2 class="h4 text-center">Enter Data Here</h2>
+                            <h2 class="h4 text-center can-copy">Enter Data Here</h2>
                             <h2 class="h4 text-center"><i class="fa fa-arrow-down"></i></h2>
                             <form action="#" method="POST" id="extract-form">
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="seperator">Seperator: <small>optional</small></label>
-                                    <input type="text" name="seperator" id="seperator"  class="form-control" placeholder="Enter Seperator">
+                                    <input type="text" name="seperator" id="seperator"  class="form-control font-weight-bolder" placeholder="Enter Seperator">
                                     <span class="form-help-text">This will be used to separate each phone numbers eg (, . - = --)</span>
                                 </div>
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="note">Enter Content Here: </label>
                                     <textarea id="note" name="note" cols="30" rows="10" class="form-control" placeholder="Paste Note Here" style="resize:none"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <input type="checkbox" name="new-line" id="new-line">
+                                    <label for="new-line">Display each numbers on a new line</label>
                                 </div>
                                 <button class="btn btn-dark btn-filter">Filter</button>
                             </form>
